@@ -1,0 +1,1 @@
+{"price":"89,9 ₽/шт","priceOld":"149,9 ₽","rating":"4.8","reviewCount":"839 отзывов"}
