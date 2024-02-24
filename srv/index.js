@@ -26,7 +26,7 @@ async function getProductInfo(url, region) {
     await page.screenshot({ path: new Date().getTime()+'.png', fullPage: true})
 
 
-    await page.goto('https://www.vprok.ru/product/domik-v-derevne-dom-v-der-moloko-ster-3-2-950g--309202', { waitUntil: 'domcontentloaded' });
+    await page.goto(url, { waitUntil: 'domcontentloaded' });
     await page.waitForSelector('#bottomPortal-buyBlock > div > div > div.PriceInfo_root__GX9Xp > span', { timeout: 3000 }).catch(() => console.log('Элемент с ценой не найден'));
     await page.waitForSelector('#bottomPortal-buyBlock > div > div > div.PriceInfo_root__GX9Xp > div > span.Price_price__QzA8L.Price_size_XS__ESEhJ.Price_role_old__r1uT1', { timeout: 3000 }).catch(() => console.log('Элемент с предыдущей ценой не найден'));
     await page.waitForSelector('#__next > div > main > div:nth-child(2) > div > div.ProductPage_title__3hOtE > div.ProductPage_actionsRow__KE_23 > div > div.ActionsRow_reviewsWrapper__D7I6c > div.ActionsRow_stars__EKt42 > div > span', { timeout: 3000 }).catch(() => console.log('Элемент с рейтингом не найден'));
