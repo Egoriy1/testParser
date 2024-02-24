@@ -32,19 +32,15 @@ async function getProductInfo(url, region) {
     await page.waitForSelector('#__next > div > main > div:nth-child(2) > div > div.ProductPage_title__3hOtE > div.ProductPage_actionsRow__KE_23 > div > div.ActionsRow_reviewsWrapper__D7I6c > div.ActionsRow_stars__EKt42 > div > span', { timeout: 3000 }).catch(() => console.log('Элемент с рейтингом не найден'));
     await page.waitForSelector('#__next > div > main > div:nth-child(2) > div > div.ProductPage_title__3hOtE > div.ProductPage_actionsRow__KE_23 > div > div.ActionsRow_reviewsWrapper__D7I6c > div.ActionsRow_reviews__AfSj_ > button > span', { timeout: 3000 }).catch(() => console.log('Элемент с количеством отзывов не найден'));
 
-    // Извлекаем данные о цене
     const priceElement = await page.$('#bottomPortal-buyBlock > div > div > div.PriceInfo_root__GX9Xp > span');
     const price =  priceElement ? await page.evaluate(element => element?.textContent.trim(), priceElement) : '';
 
-    // Извлекаем данные о старой цене
     const priceOldElement = await page.$('#bottomPortal-buyBlock > div > div > div.PriceInfo_root__GX9Xp > div > span.Price_price__QzA8L.Price_size_XS__ESEhJ.Price_role_old__r1uT1');
     const priceOld = priceOldElement ? await page.evaluate(element => element?.textContent.trim(), priceOldElement) : '';
 
-    // Извлекаем данные о рейтинге
     const ratingElement = await page.$('#__next > div > main > div:nth-child(2) > div > div.ProductPage_title__3hOtE > div.ProductPage_actionsRow__KE_23 > div > div.ActionsRow_reviewsWrapper__D7I6c > div.ActionsRow_stars__EKt42 > div > span');
     const rating =  ratingElement ? await page.evaluate(element => element?.textContent.trim(), ratingElement) : '';
 
-    // Извлекаем данные о количестве отзывов
     const reviewCountElement = await page.$('#__next > div > main > div:nth-child(2) > div > div.ProductPage_title__3hOtE > div.ProductPage_actionsRow__KE_23 > div > div.ActionsRow_reviewsWrapper__D7I6c > div.ActionsRow_reviews__AfSj_ > button');
     const reviewCount = reviewCountElement ? await page.evaluate(element => element?.textContent.trim(), reviewCountElement) : '';
     console.log({ price, priceOld, rating, reviewCount })
@@ -54,7 +50,7 @@ async function getProductInfo(url, region) {
     const filePath = 'product.txt';
     const fileContent = JSON.stringify({ price, priceOld, rating, reviewCount });
 
-    const directory = './'; // Корень проекта
+    const directory = './';
 
     fs.readdir(directory, (err, files) => {
       if (err) {
@@ -64,8 +60,6 @@ async function getProductInfo(url, region) {
 
       files.forEach(file => {
         const filePath = path.join(directory, file);
-
-        // Проверяем, не является ли файл тем, который мы хотим сохранить
         if (path.extname(file) === '.png') {
           fs.unlink(filePath, err => {
             if (err) {
@@ -78,7 +72,6 @@ async function getProductInfo(url, region) {
       });
     });
 
-// Запись данных в файл
     fs.writeFile(filePath, fileContent, (err) => {
       if (err) {
         console.error('Ошибка при записи файла:', err);
